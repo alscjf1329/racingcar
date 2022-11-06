@@ -7,7 +7,7 @@ import java.util.List;
 public final class RacingCarApplication {
     public static void main(String[] args) throws IOException {
         System.out.println("Hello " + Arrays.toString(args));
-
+        //d
         BufferedReader brForInputName = new BufferedReader(new InputStreamReader(System.in));
         CarListCreate carlist = new CarListCreate();
         List<String> carNameList = carlist.createList(brForInputName.readLine());

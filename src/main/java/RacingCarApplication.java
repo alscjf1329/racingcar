@@ -5,3 +5,4 @@ public final class RacingCarApplication {
         System.out.println("Hello " + Arrays.toString(args));
     }
 }
+

@@ -1,3 +1,4 @@
+package infrastructure;
 
 public class Rand {
     public static int r(int min, int max) {

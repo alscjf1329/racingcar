@@ -1,18 +1,10 @@
-import domain.CarListCreate;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.List;
+import java.io.IOException;
 
 public final class RacingCarApplication {
-    public static void main(String[] args) throws Exception {
-//        System.out.println("Hello " + Arrays.toString(args));
 
-        BufferedReader brForInputName = new BufferedReader(new InputStreamReader(System.in));
-        CarListCreate carList = new CarListCreate();
-        List<String> carNameList = carList.createList("hi,");
+    public static void main(String[] args) throws IOException {
+        CarList carList=new CarList(args[0]);
 
-        System.out.println(carNameList);
     }
 }
 

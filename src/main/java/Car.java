@@ -1,5 +1,3 @@
-import java.util.Set;
-
 /**
  * TODO
  * - 자동차 이름을 입력 받아 자동차를 생성 o
@@ -10,22 +8,25 @@ import java.util.Set;
 public class Car {
     private String name;
     private int position = 0;
-    private boolean ErrorFlag = true;
 
     public Car(String CarName) {
-        if (CarName.length() <= 0) {
-            Release.printError("2", CarName);
+        if (CarName == null) {
+            Release.printCarError(PrintCarErrorMode.NAME_IS_NULL, CarName);
             return;
-        } else if (CarName.length() > 5) {
-            Release.printError("3", CarName);
-            return;
-        } else if (CarName.contains(" ")) {
-            Release.printError("1", CarName);
-            return;
-        } else {
-            ErrorFlag = false;
-            this.name = CarName;
         }
+        if (CarName.length() <= 0) {
+            Release.printCarError(PrintCarErrorMode.NAME_LENGTH_IS_ZERO, CarName);
+            return;
+        }
+        if (CarName.length() > 5) {
+            Release.printCarError(PrintCarErrorMode.NAME_LENGTH_BIGGER_THAN_FIVE, CarName);
+            return;
+        }
+        if (CarName.contains(" ")) {
+            Release.printCarError(PrintCarErrorMode.NAME_CONTAINS_BLANK, CarName);
+            return;
+        }
+        this.name = CarName;
 
     }
 
@@ -34,7 +35,19 @@ public class Car {
     }
 
     public boolean isError() {
-        return ErrorFlag;
+        if (name == null) {
+            return true;
+        }
+        if (name.length() <= 0) {
+            return true;
+        }
+        if (name.length() > 5) {
+            return true;
+        }
+        if (name.contains(" ")) {
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -52,4 +65,8 @@ public class Car {
     public int getPosition() {
         return this.position;
     }
+}
+
+enum PrintCarErrorMode {
+    NAME_IS_NULL, NAME_LENGTH_IS_ZERO, NAME_LENGTH_BIGGER_THAN_FIVE, NAME_CONTAINS_BLANK
 }

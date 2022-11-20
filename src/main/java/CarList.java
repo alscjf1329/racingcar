@@ -10,15 +10,17 @@ public class CarList {
     private List<Car> CarList;
     private int length = 0;
     private boolean errorFlag = true;
+    private String input;
 
     public CarList(String input) {
+        this.input = input;
         String[] temp = input.split(",");
         Car newCar;
         CarList = new ArrayList<>();
 
         for (int i = 0; i < temp.length; i++) {
             if (isOverlapCarName(temp[i])) {
-                Release.printError("CarNameList overlap");
+                Release.printCarListError(PrintCarListErrorMode.CAR_NAME_LIST_OVERLAP);
                 return;
             }
             newCar = new Car(temp[i]);
@@ -31,16 +33,22 @@ public class CarList {
         }
 
         if (!isEqualCommaCarCount(input)) {
-            Release.printError("CommaCount != CarCount");
-            return;
-        } else {
-            errorFlag = false;
+            Release.printCarListError(PrintCarListErrorMode.COMMA_COUNT_NOT_SAME_CAR_COUNT);
             return;
         }
+        return;
     }
 
+
+
     public boolean isError() {
-        return errorFlag;
+        if (!isEqualCommaCarCount(input)) {
+            return true;
+        }
+        if (CarList == null) {
+            return true;
+        }
+        return false;
     }
 
     public boolean isOverlapCarName(String s) {
@@ -77,4 +85,7 @@ public class CarList {
         }
         System.out.print(stringBuilder);
     }
+}
+enum PrintCarListErrorMode{
+    CAR_NAME_LIST_OVERLAP,COMMA_COUNT_NOT_SAME_CAR_COUNT
 }

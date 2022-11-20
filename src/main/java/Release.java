@@ -4,36 +4,36 @@ import java.util.List;
 public class Release {
     private static final int allocationSize = 7;
 
-    public static void printError(String mode, String CarName) {
+    public static void printCarError(PrintCarErrorMode mode, String CarName) {
 
         switch (mode) {
-            case "1": {
+            case NAME_CONTAINS_BLANK: {
                 toString(CarName + ": No spaces in the Car name");
                 break;
             }
-            case "2": {
+            case NAME_LENGTH_IS_ZERO: {
                 toString(CarName + ": Car name is too short to make car");
                 break;
             }
-            case "3": {
+            case NAME_LENGTH_BIGGER_THAN_FIVE: {
                 toString(CarName + ": Car name is too long to make car");
+                break;
+            }
+            case NAME_IS_NULL: {
+                toString(CarName + ": Car name is null");
                 break;
             }
         }
     }
 
-    public static void printError(String mode) {
+    public static void printCarListError(PrintCarListErrorMode mode) {
         switch (mode) {
-            case "CommaCount != CarCount": {
+            case COMMA_COUNT_NOT_SAME_CAR_COUNT: {
                 toString("Comma count is not equal Car count");
                 break;
             }
-            case "CarNameList overlap": {
+            case CAR_NAME_LIST_OVERLAP: {
                 toString("CarName is overlap");
-                break;
-            }
-            case "CarNameList is empty": {
-                toString("CarNameList is empty");
                 break;
             }
 
@@ -75,9 +75,10 @@ public class Release {
                 winnerList.add(c);
             }
         }
-        for(int i=0; i<winnerList.size(); i++){
+        for (int i = 0; i < winnerList.size(); i++) {
             System.out.print(winnerList.get(i).getName());
-            if(i<winnerList.size()-1) System.out.print(",");;
+            if (i < winnerList.size() - 1) System.out.print(",");
+            ;
         }
     }
 

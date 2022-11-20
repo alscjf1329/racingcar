@@ -1,6 +1,3 @@
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,31 +7,49 @@ import java.util.List;
  * - 쉼표의 개수와 자동차 이름의 개수가 맞아야한다. o
  */
 public class CarList {
-    private List<Car> CarNameList;
+    private List<Car> CarList;
     private int length = 0;
+    private boolean errorFlag = true;
 
     public CarList(String input) {
-        String[] temp;
+        String[] temp = input.split(",");
         Car newCar;
-        temp = input.split(",");
-        CarNameList = new ArrayList<>();
+        CarList = new ArrayList<>();
+
         for (int i = 0; i < temp.length; i++) {
-            newCar=new Car(temp[i]);
-            if(CarNameList.contains(newCar)){
-                Reasult.printError("CarNameList overlap");
+            if (isOverlapCarName(temp[i])) {
+                Release.printError("CarNameList overlap");
                 return;
             }
-            this.CarNameList.add(newCar);
+            newCar = new Car(temp[i]);
+            if (newCar.isError()) {
+                return;
+            }
+
+            this.CarList.add(newCar);
             this.length++;
         }
-        if(!isEqualCommaCarCount(input)){
-            Reasult.printError("CommaCount != CarCount");
+
+        if (!isEqualCommaCarCount(input)) {
+            Release.printError("CommaCount != CarCount");
             return;
-        } else if (CarNameList.size() == 0) {
-            Reasult.printError("CarNameList is empty");
+        } else {
+            errorFlag = false;
             return;
         }
+    }
 
+    public boolean isError() {
+        return errorFlag;
+    }
+
+    public boolean isOverlapCarName(String s) {
+        for (Car c : this.CarList) {
+            if (c.getName().equals(s)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean isEqualCommaCarCount(String s) {
@@ -44,20 +59,22 @@ public class CarList {
                 commaCount++;
             }
         }
-        return (this.length == commaCount) ? true : false;
+        return (this.length - 1 == commaCount) ? true : false;
 
     }
 
-    public List<Car> getCarNameList() {
-        return CarNameList;
+    public List<Car> getCarList() {
+        return CarList;
     }
 
-    public void printCarNameList() throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(System.out));
-        for (int i = 0; i < CarNameList.size(); i++) {
-            bufferedWriter.write(CarNameList.get(i).toString() + "\n");
+    public void printCarNameList() {
+        if (isError()) {
+            return;
         }
-        bufferedWriter.flush();
-        bufferedWriter.close();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < CarList.size(); i++) {
+            stringBuilder.append(CarList.get(i).toString()).append("\n");
+        }
+        System.out.print(stringBuilder);
     }
 }
